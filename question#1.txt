@@ -1,0 +1,40 @@
+
+Part a)
+SELECT COALESCE(shopper_first_name, 'Notknown') AS shopper_first_name, COALESCE(shopper_surname, 'Notknown') AS shopper_surname,
+COALESCE(shopper_email_address, 'Notknown') AS shopper_email_address,
+COALESCE(gender, 'Notknown') AS gender, strftime('%d/%m/%Y' , date_joined) AS date_joined,
+strftime('%Y', 'now') - strftime('%Y',  date_of_birth) AS current_age
+FROM shoppers
+WHERE (gender =  'F') OR (date_joined > '2020-01-01' AND gender !=  'F') ORDER BY gender DESC, current_age DESC;
+
+Part b)
+SELECT s.shopper_first_name, s.shopper_surname,
+o.order_id, strftime('%d-%m-%Y' , o.order_date) AS order_date,
+(SELECT product_description FROM products p WHERE p.product_id = op.product_id) AS product_description,
+(SELECT seller_name FROM sellers s WHERE s.seller_id = op.seller_id) AS seller_name,
+op.quantity, '£' || ROUND(op.price, 2) AS price, op.ordered_product_status AS order_status
+FROM shoppers s INNER JOIN  shopper_orders o ON (s.shopper_id = o.shopper_id)
+INNER JOIN ordered_products op ON (op.order_id = o.order_id)
+WHERE s.shopper_id = 10000
+ORDER BY o.order_date DESC;
+
+Part c)
+SELECT s.seller_account_ref, s.seller_name,
+p.product_code, p.product_description,
+COUNT(op.order_id) as no_of_orders, SUM(op.quantity) as total_quantity_sold,
+ '£' || ROUND(SUM(op.price*op.quantity), 2) AS total_value_of_sales
+FROM ordered_products op INNER JOIN sellers s ON ( op.seller_id = s.seller_id)
+INNER JOIN products p ON (p.product_id = op.product_id)
+GROUP BY op.product_id
+ORDER BY total_quantity_sold ASC
+
+Part d)
+SELECT c.category_description, p.product_code, p.product_description,
+(SELECT ROUND(COALESCE(AVG(op.quantity) , 0),  2) FROM ordered_products op
+		WHERE op.product_id = p.product_id  AND op.ordered_product_status != 'Cancelled') as avg_qty_sold,
+(SELECT  ROUND(COALESCE(AVG(op1.quantity) , 0),  2)  FROM ordered_products  op1 WHERE  op1.product_id IN
+		(SELECT  product_id FROM products WHERE category_id = c.category_id) AND op1.ordered_product_status != 'Cancelled')
+AS avg_qty_sold_for_category
+FROM products p INNER JOIN categories c ON (p.category_id  = c.category_id)
+WHERE avg_qty_sold < avg_qty_sold_for_category;
+
