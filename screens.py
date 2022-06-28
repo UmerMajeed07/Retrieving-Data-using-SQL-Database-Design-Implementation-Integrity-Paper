@@ -147,12 +147,16 @@ class Screens:
             # get quantity of product selected by user.
             prompt = "Enter the quantity of the selected product you want to buy: "
             quantity = 0
-            while True or quantity <= 0:
+            while True:
                 try:
-                    quantity = int(input(prompt))
+                    input_quantity = int(input(prompt))
+                except Exception as e:
+                    input_quantity = 0
+
+                if input_quantity <= 0:
+                    print('The quantity must be greater than 0')
+                else:
                     break
-                except Exception:
-                    print('The quantity must be greater than 0’')
 
             price = self.db.get_product_price(seller_id, product_id)
 
@@ -180,7 +184,6 @@ class Screens:
         """
         # get all the details of the product in the shopper basket.
         data = self.db.get_basket_contents_details(self.basket_id)
-        print(self.basket_id)
         print('\nBasket Contents')
         print((u'\u2500' * 15) + u'\n')
         if len(data) > 2:
@@ -188,6 +191,7 @@ class Screens:
                            headers=['Basket Item', 'Product Description', 'Seller Name', 'QTY', 'Price', 'Total']))
         else:
             print("Your basket is empty\n")
+            self.basket_id = 0
 
         if redirect:
             self.main_menu_screen()
@@ -224,13 +228,16 @@ class Screens:
             # input to get the quantity from the user.
             input_quantity = 0
             prompt = "Enter the new quantity for the item selected: "
-            while input_quantity <= 0:
+            while True:
                 try:
                     input_quantity = int(input(prompt))
                 except Exception as e:
-                    pass
+                    input_quantity = 0
+
                 if input_quantity <= 0:
                     print('The quantity must be greater than 0')
+                else:
+                    break
 
             # get the item product_id and seller_id to update the quantity against the selected item.
             selected_option_item -= 1

@@ -257,7 +257,7 @@ class Queries:
             results.append('Basket Total')
             results.append('')
             results.append('')
-            results.append('£ ' + str(total))
+            results.append('£ ' + str("{:.2f}".format(total)))
             data.append(results)
         except Exception as e:
             pass
