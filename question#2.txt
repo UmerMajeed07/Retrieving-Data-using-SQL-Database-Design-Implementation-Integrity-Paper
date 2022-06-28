@@ -1,4 +1,4 @@
-Script to generate tables:
+a) Script to generate tables:
 
 CREATE TABLE `reviews` (
   `review_id` INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,7 +82,7 @@ INSERT INTO review_details VALUES (27, 2, 'This is another test review from othe
 INSERT INTO review_details VALUES (28, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
 
 
-Constraints Check Queries:
+c) Constraints Check Queries:
 Foreign Key: INSERT INTO review_details VALUES (29, 4, 'This is another test review from other shopper. The seller price is good', '2022-06-29');
 
 Unique Constraint:
@@ -93,3 +93,27 @@ INSERT INTO review_details VALUES (1, 10, 'This is the test review regarding the
 
 NOT NULL Check:
 INSERT INTO reviews VALUES (null,'product', null, 10000);
+
+
+
+d) VIEW CREATION:
+DROP VIEW "main"."product_reviews";
+CREATE VIEW product_reviews
+AS
+SELECT
+	s.shopper_first_name,
+	rd.rating,
+	rd.review_comment,
+	strftime('%d-%m-%Y' , rd.review_date) AS review_date,
+	p.product_description
+FROM
+	products p
+INNER JOIN reviews r ON p.product_id = r.review_type_id AND r.review_type = 'product'
+INNER JOIN review_details rd ON rd.review_id = r.review_id
+INNER JOIN shoppers s ON s.shopper_id = r.shopper_id
+ORDER BY  rd.review_date DESC
+
+Queries:
+SELECT * FROM product_reviews;
+SELECT * FROM product_reviews WHERE shopper_first_name = 'Caroline';
+SELECT * FROM product_reviews WHERE product_description = 'Supereye MP3 Player, 16G Portable Lossless Sound MP3 Player';
