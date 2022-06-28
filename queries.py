@@ -106,7 +106,8 @@ class Queries:
         """
         result = None
         try:
-            query = f"""SELECT product_id, product_description FROM products WHERE category_id = {category_id}"""
+            query = f"""SELECT product_id, product_description FROM products WHERE category_id = {category_id}
+                    AND product_status = 'Available'"""
             cursor = self.conn.cursor()
             cursor.execute(query)
             result = cursor.fetchall()

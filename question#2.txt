@@ -1,0 +1,94 @@
+Script to generate tables:
+
+CREATE TABLE `reviews` (
+  `review_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `review_type` TEXT NOT NULL,
+  `review_type_id` INTEGER NOT NULL,
+  `shopper_id` INTEGER NOT NULL,
+  CONSTRAINT shopper_reviews_shoppers_fk FOREIGN KEY (shopper_id) REFERENCES shoppers(shopper_id),
+  CONSTRAINT review_type_check CHECK (review_type IN ('product', 'seller')),
+  CONSTRAINT unique_review UNIQUE(review_type, review_type_id, shopper_id)
+);
+CREATE INDEX review ON `reviews` (`review_type`, `review_type_id`, `shopper_id`);
+
+CREATE TABLE `review_details` (
+  `review_id` INTEGER,
+  `rating` INTEGER NOT NULL,
+  `review_comment` TEXT  NOT NULL,
+  `review_date` TEXT NOT NULL,
+  PRIMARY KEY (review_id),
+  CONSTRAINT rating_status_check CHECK (rating <= 5),
+  CONSTRAINT reviews_details_fk FOREIGN KEY (review_id) REFERENCES reviews (review_id)
+);
+CREATE INDEX ix_review ON `review_details` (`review_id`, `review_date`);
+
+INSERT INTO reviews VALUES (null,'product', 3000000, 10000);
+INSERT INTO reviews VALUES (null,'product', 3000021, 10000);
+INSERT INTO reviews VALUES (null,'product', 3005955, 10000);
+INSERT INTO reviews VALUES (null,'product', 3006033, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007676, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007679, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007689, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007717, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007734, 10000);
+INSERT INTO reviews VALUES (null,'product', 3007759, 10000);
+INSERT INTO reviews VALUES (null,'product', 3000000, 10001);
+INSERT INTO reviews VALUES (null,'product', 3000021, 10001);
+INSERT INTO reviews VALUES (null,'product', 3005955, 10001);
+INSERT INTO reviews VALUES (null,'product', 3006033, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007676, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007679, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007689, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007717, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007734, 10001);
+INSERT INTO reviews VALUES (null,'product', 3007759, 10001);
+INSERT INTO reviews VALUES (null,'seller', 200000 , 10000);
+INSERT INTO reviews VALUES (null,'seller', 200001 , 10000);
+INSERT INTO reviews VALUES (null,'seller', 200002 , 10000);
+INSERT INTO reviews VALUES (null,'seller', 200003 , 10000);
+INSERT INTO reviews VALUES (null,'seller', 200004 , 10001);
+INSERT INTO reviews VALUES (null,'seller', 200005 , 10001);
+INSERT INTO reviews VALUES (null,'seller', 200006 , 10001);
+INSERT INTO reviews VALUES (null,'seller', 200007 , 10001);
+
+INSERT INTO review_details VALUES (1, 5, 'This is the test review regarding the Product. The product is excellent.', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (2, 5, 'This is the test review regarding the Product. The product is excellent.', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (3, 5, 'This is the test review regarding the Product. The product is excellent.', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (4, 5, 'This is the test review regarding the Product. The product is excellent.', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (5, 4, 'This is the test review regarding the Product. The product is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (6, 4, 'This is the test review regarding the Product. The product is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (7, 4, 'This is the test review regarding the Product. The product is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (8, 4, 'This is the test review regarding the Product. The product is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (9, 4, 'This is the test review regarding the Product. The product is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (10, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (11, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (12, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (13, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (14, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (15, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (16, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (17, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (18, 3, 'This is the test review regarding the Product. The product is average', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (19, 5, 'This is another test review from other shopper. The product is excellent., '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (20, 5, 'This is another test review from other shopper. The product is excellent., '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (21, 5, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (22, 5, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (23, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (24, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (25, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (26, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (27, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+INSERT INTO review_details VALUES (28, 2, 'This is another test review from other shopper. The seller price is good', '2022-06-28 19:56:26.940231');
+
+
+Constraints Check Queries:
+Foreign Key: INSERT INTO review_details VALUES (29, 4, 'This is another test review from other shopper. The seller price is good', '2022-06-29');
+
+Unique Constraint:
+INSERT INTO review_details VALUES (1, 5, 'This is the test review regarding the Product. The product is excellent.', '2022-06-28 19:56:26.940231');
+
+Check Constraint for rating:
+INSERT INTO review_details VALUES (1, 10, 'This is the test review regarding the Product.', '2022-06-28 19:56:26.940231');
+
+NOT NULL Check:
+INSERT INTO reviews VALUES (null,'product', null, 10000);

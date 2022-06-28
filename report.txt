@@ -1,0 +1,23 @@
+a) An evaluation of the quality of the work you have produced with reference to both the specified
+requirements and the assessment criteria. You should include:
+- any deliverables that are not complete or fully tested;
+- elements of the practical work that you feel contribute to higher grade achievement;
+- your approach to design and testing of the SQL and Python elements of the assessment;
+- how well you feel you managed your time between the four parts of the assessment and what more you would
+have done if you’d had more time.
+
+b) Bibliography and references
+
+I have been able to complete all the three questions completely  and tested out with all the use cases in the
+question # 2.
+I have used a class based python design structure to implement the question 2 along with the docstrings for the
+explanation of what each function do with the parameters input and return types. Added proper comments to code for
+better explanation of the piece of code does.
+Handled the wrong input exceptions while getting input from the users i.e giving non integer values as input i.e "abc".
+Added the usage of python packages such as used "tabulate" for the tabular printing of data. Added the package
+dependency file and a README file for others to how to install and run the program.
+
+
+
+
+SQL Connection reference: https://www.sqlitetutorial.net/sqlite-python/sqlite-python-select/
